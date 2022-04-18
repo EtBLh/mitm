@@ -1,0 +1,26 @@
+GET / HTTP/1.1
+Host: www.nycu.edu.tw
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+DNT: 1
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+HTTP/1.1 301 Moved Permanently
+server: openresty
+date: Mon, 18 Apr 2022 13:27:27 GMT
+content-type: text/html
+content-length: 166
+location: http://www.pornhub.com/
+x-request-id: 625D673F-42FE72290050264B-3F84960D
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body>
+<center><h1>301 Moved Permanently</h1></center>
+<hr><center>openresty</center>
+</body>
+</html>

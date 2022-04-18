@@ -1,0 +1,23 @@
+POST /portal/api/PortalLdapLogin HTTP/1.1
+Host: portal.nycu.edu.tw
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0
+Accept: application/json
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 661
+Origin: https://portal.nycu.edu.tw
+DNT: 1
+Connection: keep-alive
+Referer: https://portal.nycu.edu.tw/
+Cookie: sidebarStatus=1
+
+id=1234&pwd=1234&recaptchaToken=03AGdBq25UiFJSU9vtEzK1i5AKWjJ5Kb2E0z4vjyWuC05AQhpMra4lWov1IdANI5UVIf9w-l25miTLEmKgEt7h2T8bZvNrVR7yXAsGLcQ_y8ekkZOKUp__NLm5wSamWi-_TaWO5Xa0bc_GCsYZRUYrm2ChaqxJgjPtma-mA9j7vvXE3kyRGCh7Sve6scgZIVzmYyJJyg85NkgyXD7pAkf_f2ZxjUFINkBHy3rzcvnZYegXLs57gduX89LNfOmgYXucBzeFBJG_RhVRjVZxJ0hDBsB_iAfYSBFMp39NWaTU0aJ3dladJ6q6UOygIUgAnQi6PHZsKjClZ6mWwWu0xeahAvd5h9buJ4jdAEUjAmTzjXxdPE1TNqvMQhREICg4SpPNxqgjFkt5V5t1e8zyPiYLdRHVx3gfMvnvUREKRtVi2OxYRCv43jHIEdQceFPxQwWyechIwvU_iOm2&deviceInfo={"videocard":"llvmpipe (LLVM 10.0.0, 256 bits)","browser":"Firefox","device":"PC","os":"Ubuntu undefined","fingerPrint":"2a5c4c3da51de076945b28e6f76fda83"}HTTP/1.1 404 Not Found
+Content-Type: application/json; charset=utf-8
+Server: Microsoft-IIS/10.0
+Access-Control-Allow-Origin: *
+Content-Security-Policy: frame-ancestors *.nycu.edu.tw
+Date: Mon, 18 Apr 2022 12:31:58 GMT
+Content-Length: 70
+
+{"status":"false","message":"帳號密碼錯誤或帳號尚未啟用"}

