@@ -1,0 +1,34 @@
+POST /portal/api/PortalLdapLogin HTTP/1.1
+Host: portal.nycu.edu.tw
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0
+Accept: application/json
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 419
+Origin: https://portal.nycu.edu.tw
+Connection: keep-alive
+Referer: https://portal.nycu.edu.tw/
+Cookie: _ga=GA1.3.1067411757.1650281702; _gid=GA1.3.1515378123.1650281702
+
+id=2345q&pwd=12344&recaptchaToken=HFcmJyYRtVZBshc1JHXEhWXQ8ZJ3YJeCoTJDYXFwAJI2EnfCE9Hxg2LglGKCZ7ZSNWYSAVAQYBcAYIGW03T1t4ADJXAQNmGTQBYDRybFwnPWJSfSVqW2M0F3diAhF1FhEAHwlTL0RcYls0JXJTRUh_NWUodC0eDyYuHjwGYRwlZBtQMAUBBVNiSX1KUGJ1azZCUzJiU0FuQD5bIV01CGkhOQ5a&deviceInfo={"videocard":"llvmpipe (LLVM 10.0.0, 256 bits)","browser":"Firefox","device":"PC","os":"Ubuntu undefined","fingerPrint":"2a5c4c3da51de076945b28e6f76fda83"}HTTP/1.1 404 Not Found
+Server: nginx
+Date: Tue, 19 Apr 2022 09:29:33 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 56
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+X-Frame-Options: SAMEORIGIN
+Content-Security-Policy: frame-ancestors *.nycu.edu.tw
+Set-Cookie: nctu_id=D7b4BvYmG0absKYUDJnhjgX8g5Y0002; Domain=.nycu.edu.tw; Path=/; Secure; HttpOnly
+
+{"status":"false","message":"無效請求,驗證失敗"}GET /static/fonts/element-icons.535877f.woff HTTP/1.1
+Host: portal.nycu.edu.tw
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0
+Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: identity
+Connection: keep-alive
+Referer: https://portal.nycu.edu.tw/static/css/chunk-elementUI.d2720fe4.css
+Cookie: _ga=GA1.3.1067411757.1650281702; _gid=GA1.3.1515378123.1650281702; nctu_id=D7b4BvYmG0absKYUDJnhjgX8g5Y0002
+

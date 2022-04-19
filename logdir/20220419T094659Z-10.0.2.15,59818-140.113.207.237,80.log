@@ -1,0 +1,24 @@
+GET /favicon.ico HTTP/1.1
+Host: www.nycu.edu.tw
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0
+Accept: image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Referer: http://www.nycu.edu.tw/
+Cookie: _ga=GA1.3.1067411757.1650281702; _gid=GA1.3.1515378123.1650281702
+
+HTTP/1.1 404 Not Found
+Server: nginx/1.21.6
+Date: Tue, 19 Apr 2022 09:47:00 GMT
+Content-Type: text/html
+Content-Length: 153
+Connection: keep-alive
+
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx/1.21.6</center>
+</body>
+</html>

