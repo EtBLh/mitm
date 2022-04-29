@@ -49,7 +49,7 @@ if __name__ == "__main__":
                 interval=int(arg[2:len(arg)])
                 
     print("[*] set up ip forwarding")
-    enable_port_forwarding()
+    pharm_attack_port_forwarding()
     nfq_ip_rule()
     
     gateway = machine(conf.route.route("0.0.0.0")[2])
